@@ -38,3 +38,13 @@
   `(flet ((esc (string)
             string))
      ,@body))
+
+(defmacro verb (&body body)
+  `(flet ((esc (string)
+            string))
+     ,@body))
+
+(defmacro verbatim (&body body)
+  `(flet ((esc (string)
+            string))
+     ,@body))

@@ -133,16 +133,7 @@
                  out)))
       (rec-parse t))))
 
-;;; Interface
-
-(defun slurp-file (path)
-  ;; Credit: http://www.ymeme.com/slurping-a-file-common-lisp-83.html
-  (with-open-file (stream path)
-    (let ((seq (make-array (file-length stream) :element-type 'character :fill-pointer t)))
-      (setf (fill-pointer seq) (read-sequence seq stream))
-      seq)))
-
 (defun parse-template (string-or-pathname)
   (if (pathnamep string-or-pathname)
-      (parse-template (slurp-file string-or-pathname))
+      (parse-template (alexandria:read-file-into-string string-or-pathname))
       (parse-tokens (tokenize-template string-or-pathname))))

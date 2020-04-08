@@ -1,0 +1,13 @@
+{% template include-ex () (xs) %}
+<html>
+  <head>
+  </head>
+  <body>
+    <ul>
+      {% loop for x in xs do %}
+      {%raw%}{{ item-ex x }}{%end%}
+      {% end %}
+    </ul>
+  </body>
+</html>
+{% end %}

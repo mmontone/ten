@@ -1,2 +1,3 @@
 (defpackage #:ten
-  (:use #:cl))
+  (:use #:cl)
+  (:export :compile-template))
