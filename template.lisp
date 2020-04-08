@@ -12,19 +12,16 @@
 
 (defun esc (string)
   "Escape a string."
-  (who:escape-string string))
+  (if *escape-html*
+      (who:escape-string string)
+      string))
 
 (defmacro template (name (&key (escape-html *escape-html*)
                                (dot-syntax *dot-syntax*)
                                inherits-from) args &rest body)
   (let ((output-code
          `(with-output-to-string (%ten-stream)
-            ,(if (not escape-html)
-                 `(flet ((esc (string)
-                           string))
-                    ,@body)
-                 `(progn
-                    ,@body)))))
+            ,@body)))
     `(progn
        (defun ,name ,args
          ,@(if dot-syntax
@@ -35,8 +32,7 @@
        (export ',name (symbol-package ',name)))))
 
 (defmacro raw (&body body)
-  `(flet ((esc (string)
-            string))
+  `(let ((*escape-html* nil))
      ,@body))
 
 (defmacro verb (&body body)
@@ -48,3 +44,6 @@
   `(flet ((esc (string)
             string))
      ,@body))
+
+(defmacro include (template-name &rest args)
+  `(raw (,template-name ,@args)))
