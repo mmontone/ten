@@ -23,3 +23,8 @@
                  ,@body))))
      (compile ',name)
      (export ',name (symbol-package ',name))))
+
+(defmacro raw (&body body)
+  `(flet ((esc (string)
+            string))
+     ,@body))

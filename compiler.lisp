@@ -57,10 +57,7 @@
   (typep element '<control-tag>))
 
 (defun emit-toplevel (code)
-  `(progn ,@(map 'list 'emit
-                 code
-                 ;;(remove-if 'control-element-p code)
-                 )))
+  (emit (aref code 0)))
 
 ;;; Interface
 
