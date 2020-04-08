@@ -1,4 +1,4 @@
-{% template ex1 () (foo bar) %}
+{% template ex1 () (foo bar &key list) %}
 <html>
   <head>
   </head>
@@ -10,6 +10,19 @@
     {% else %}
     False
     {% end %}
+
+    {% when list %}
+    <ul>
+      {% loop for item in list do %}
+      <li>{{ item }}</li>
+      {% end %}
+    </ul>
+    {% end %}
+
+    {% when (not list) %}
+    There's no list
+    {% end %}
+    
 
     {{ princ-to-string bar }}
 
