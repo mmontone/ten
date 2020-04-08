@@ -1,0 +1,2 @@
+(defpackage #:ten
+  (:use #:cl))

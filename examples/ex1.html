@@ -1,0 +1,21 @@
+{% template ex1 () (foo bar) %}
+<html>
+  <head>
+  </head>
+  <body>
+    {{ foo }}
+
+    {% if bar %}
+    True
+    {% else %}
+    False
+    {% end %}
+
+    {{ princ-to-string bar }}
+
+    {% raw %}
+    This goes unescaped
+    {% end %}
+  </body>
+</html>
+{% end %}
