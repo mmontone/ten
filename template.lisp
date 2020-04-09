@@ -11,11 +11,16 @@
 (defvar *dot-syntax* t)
 
 (defvar *template-output*)
+(defvar *rendering-template* nil)
+(defvar *compiling-template*)
 
 (defclass template ()
   ())
 
 (defgeneric render-template (template stream))
+
+(defmethod render-tempate :around (template stream)
+  (call-next-method))
 
 (defun esc (string)
   "Escape a string."
@@ -25,7 +30,11 @@
 
 (defmacro template (name (&key (escape-html *escape-html*)
                                (dot-syntax *dot-syntax*)
-                               extends) args &rest body)
+                               extends
+                               package
+                               control-delimiters
+                               output-delimiters)
+                            args &rest body)
   (multiple-value-bind (required optional rest keyword)
       (alexandria:parse-ordinary-lambda-list args)
     (let* ((slots (append (mapcar (lambda (r)
@@ -55,13 +64,16 @@
          (defclass ,name (,(or extends 'template))
            ,slots)
          (defmethod render-template ((template ,name) %ten-stream)
-           (with-slots ,arg-names template
-             (access:with-dot ()
-               ,@body)))
+           ,(if extends
+                `(call-next-method)
+                `(with-slots ,arg-names template
+                   (access:with-dot ()
+                     ,@body))))
          (defun ,name ,args
-           (with-output-to-string (%ten-stream)
-             (render-template (make-instance ',name ,@slots-init)
-                              %ten-stream)))
+           (let ((*rendering-template* (make-instance ',name ,@slots-init)))
+             (with-output-to-string (%ten-stream)
+               (render-template *rendering-template*
+                                %ten-stream))))
          (compile ',name)
          (export ',name (symbol-package ',name))))))
 
@@ -85,3 +97,6 @@
       (make-instance ',template-name ,@args)
       %ten-stream)
      ""))
+
+(defmacro super ()
+  `(call-next-method))

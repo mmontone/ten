@@ -1,6 +1,9 @@
 (in-package #:ten)
 
 (defun compile-template (string-or-pathname &optional (package-name ten/compiler:*template-package*))
-  (eval (ten/compiler:compile-template
-         (ten/parser:parse-template string-or-pathname)
-         package-name)))
+  (let ((compiled-template (ten/compiler:compile-template
+                            (ten/parser:parse-template string-or-pathname)
+                            package-name)))
+    (if (atom (first compiled-template))
+        (eval compiled-template)
+        (mapcar 'eval compiled-template))))
