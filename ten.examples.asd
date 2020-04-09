@@ -4,6 +4,7 @@
   :license  "MIT"
   :version "0.0.1"
   :serial t
+  :defsystem-depends-on (:ten)
   :depends-on (:ten)
   :components
   ((:module "examples"
