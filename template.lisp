@@ -48,14 +48,14 @@
                             (list rest :initarg (intern (symbol-name rest) :keyword)))
                           (mapcar (lambda (k)
                                     (list (second (first k))
-                                          :initarg (intern (symbol-name k) :keyword)
+                                          :initarg (intern (symbol-name (second (first k))) :keyword)
                                           :initform (second k)))
                                   keyword)))
            (arg-names (append required
                               (mapcar 'first optional)
                               (when rest
                                 (list rest))
-                              (mapcar (alexandria:compose 'first 'second)
+                              (mapcar (alexandria:compose 'second 'first)
                                       keyword)))
            (slots-init (loop
                           for arg in arg-names
