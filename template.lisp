@@ -1,10 +1,5 @@
 ;;; ten-template: The package where templates are compiled
 
-(defpackage ten/template
-  (:use :cl)
-  (:export :template
-           :esc))
-
 (in-package :ten/template)
 
 (defvar *escape-html* t)
@@ -18,9 +13,6 @@
   ())
 
 (defgeneric render-template (template stream))
-
-(defmethod render-tempate :around (template stream)
-  (call-next-method))
 
 (defun esc (string)
   "Escape a string."

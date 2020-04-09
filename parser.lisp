@@ -1,18 +1,3 @@
-(in-package :cl-user)
-
-(defpackage ten/parser
-  (:use :cl :esrap)
-  (:import-from :split-sequence
-                :split-sequence-if)
-  (:export :<output-tag>
-           :<else-tag>
-           :<control-tag>
-           :<super-tag>
-           :<include-tag>
-           :code
-           :body
-           :parse-template))
-
 (in-package :ten/parser)
 
 ;;; Utilities

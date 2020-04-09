@@ -1,16 +1,7 @@
-(defpackage ten/compiler
-  (:use :cl :ten/parser :ten/template)
-  (:import-from :split-sequence
-                :split-sequence-if)
-  (:import-from :ten/template
-                :%ten-stream)
-  (:export :compile-template
-           :*template-package*))
-
 (in-package :ten/compiler)
 
 (defparameter *template-package*
-  (find-package 'ten/template)
+  (find-package 'ten-templates)
   "The package where template expressions are evaluated and the template function is exported")
 
 (defvar *compiling-template*) ;; The template being compiled
