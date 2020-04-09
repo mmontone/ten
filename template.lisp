@@ -10,6 +10,13 @@
 (defvar *escape-html* t)
 (defvar *dot-syntax* t)
 
+(defvar *template-output*)
+
+(defclass template ()
+  ())
+
+(defgeneric render-template (template stream))
+
 (defun esc (string)
   "Escape a string."
   (if *escape-html*
@@ -19,17 +26,44 @@
 (defmacro template (name (&key (escape-html *escape-html*)
                                (dot-syntax *dot-syntax*)
                                inherits-from) args &rest body)
-  (let ((output-code
-         `(with-output-to-string (%ten-stream)
-            ,@body)))
-    `(progn
-       (defun ,name ,args
-         ,@(if dot-syntax
-               `((access:with-dot ()
-                   ,output-code))
-               output-code))
-       (compile ',name)
-       (export ',name (symbol-package ',name)))))
+  (multiple-value-bind (required optional rest keyword)
+      (alexandria:parse-ordinary-lambda-list args)
+    (let* ((slots (append (mapcar (lambda (r)
+                                    (list r :initarg (intern (symbol-name r) :keyword))) required)
+                          (mapcar (lambda (o)
+                                    (list (first o)
+                                          :initarg (intern (symbol-name o) :keyword)
+                                          :initform (second o)))
+                                  optional)
+                          (when rest
+                            (list rest :initarg (intern (symbol-name rest) :keyword)))
+                          (mapcar (lambda (k)
+                                    (list (second (first k))
+                                          :initarg (intern (symbol-name k) :keyword)
+                                          :initform (second k)))
+                                  keyword)))
+           (arg-names (append required
+                              (mapcar 'first optional)
+                              (when rest
+                                (list rest))
+                              (mapcar (alexandria:compose 'first 'second)
+                                      keyword)))
+           (slots-init (loop
+                          for arg in arg-names
+                          appending (list (intern (symbol-name arg) :keyword) arg))))
+      `(progn
+         (defclass ,name (,(or inherits-from 'template))
+           ,slots)
+         (defmethod render-template ((template ,name) %ten-stream)
+           (with-slots ,arg-names template
+             (access:with-dot ()
+               ,@body)))
+         (defun ,name ,args
+           (with-output-to-string (%ten-stream)
+             (render-template (make-instance ',name ,@slots-init)
+                              %ten-stream)))
+         (compile ',name)
+         (export ',name (symbol-package ',name))))))
 
 (defmacro raw (&body body)
   `(let ((*escape-html* nil))
@@ -46,4 +80,6 @@
      ,@body))
 
 (defmacro include (template-name &rest args)
-  `(raw (,template-name ,@args)))
+  `(render-template
+    (make-instance ',template-name ,@args)
+    %ten-stream))
