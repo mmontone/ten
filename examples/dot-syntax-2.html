@@ -1,0 +1,13 @@
+{% template dot-syntax-ex2 () (user) %}
+{% access:with-dot () %}
+<html>
+  <head>
+  </head>
+  <body>
+
+    Hello {{ user.firstname }} {{user.lastname}}
+
+  </body>
+</html>
+{% end %}
+{% end %}
