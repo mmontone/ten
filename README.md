@@ -1,6 +1,6 @@
 # TEN
 
-Template System for Common Lisp
+Yet another Template System for Common Lisp
 
 WIP
 
