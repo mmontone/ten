@@ -14,6 +14,7 @@
   "The package where template expressions are evaluated and the template function is exported")
 
 (defvar *compiling-template*) ;; The template being compiled
+(defvar *sections*) ;; Sections of current template
 
 (defgeneric render-section (section-name template stream))
 
@@ -80,8 +81,6 @@
     (call-with-template-header-options
      element
      (lambda () (emit-toplevel element)))))
-
-(defvar *sections*) ;; Sections of current template
 
 (defun start-template-compilation (template-name)
   (declare (ignore template-name)))
