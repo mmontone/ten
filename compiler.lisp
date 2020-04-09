@@ -121,7 +121,7 @@
             expr
           (declare (ignore _ args))
           (let ((*compiling-template* template-name)
-                (*template-package* (or (getf options :package) *template-package*))
+                (*template-package* (or (find-package (getf options :package)) *template-package*))
                 (*sections* nil))
             (start-template-compilation template-name)
             (let ((compiled-template (funcall func)))
