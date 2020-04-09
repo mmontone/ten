@@ -65,10 +65,25 @@
             ;; push the section to the list of sections
             ;; to generate render-section methods later
             (push (list (second exprs)
-                        (emit-body (body tag))) *sections*)
+                        (emit-body (body tag)))
+                  *sections*)
             `(ten/compiler::render-section ',(second exprs) ten/template::*rendering-template* %ten-stream))
           ;; else
           `(,@exprs ,@(emit-body (body tag)))))))
+
+;; super and include are special control tags without body
+
+(defmethod emit ((tag <super-tag>))
+  `(call-next-method))
+
+(defmethod emit ((tag <include-tag>))
+  (let* ((exprs (read-template-expressions (code tag)))
+         (slots-init (loop
+                        for arg in (rest (rest exprs))
+                        appending (list (intern (symbol-name arg) :keyword) arg))))
+    `(ten/template::render-template
+      (make-instance ',(first (rest exprs)) ,@slots-init)
+      %ten-stream)))
 
 (defun control-element-p (element)
   (typep element '<control-tag>))

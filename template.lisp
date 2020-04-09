@@ -90,13 +90,3 @@
   `(flet ((esc (string)
             string))
      ,@body))
-
-(defmacro include (template-name &rest args)
-  `(progn
-     (render-template
-      (make-instance ',template-name ,@args)
-      %ten-stream)
-     ""))
-
-(defmacro super ()
-  `(call-next-method))

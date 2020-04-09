@@ -7,6 +7,8 @@
   (:export :<output-tag>
            :<else-tag>
            :<control-tag>
+           :<super-tag>
+           :<include-tag>
            :code
            :body
            :parse-template))
@@ -41,6 +43,12 @@
 (defclass <control-tag> (<tag>)
   ((code :reader code :initarg :code)
    (body :reader body :initarg :body :initform nil)))
+
+(defclass <include-tag> (<tag>)
+  ((code :reader code :initarg :code)))
+
+(defclass <super-tag> (<tag>)
+  ())
 
 (defclass <end-tag> (<tag>)
   ())
@@ -80,6 +88,10 @@
                      (make-instance '<end-tag>))
                     ((equal text "else")
                      (make-instance '<else-tag>))
+                    ((equalp (search "include " text) 0)
+                      (make-instance '<include-tag> :code text))
+                    ((equal text "super")
+                      (make-instance '<super-tag>))
                     (t (make-instance '<control-tag> :code text))))))
 
 (defrule output-string (+ (not "}}"))
@@ -105,6 +117,11 @@
 
 (defun tokenize-template (string)
   (parse 'expr string))
+
+(defun def-control-without-body (symbol)
+  (setf (getf (symbol-plist symbol)
+              :ten-control-without-body)
+        t))
 
 ;;; Token parsing
 ;;; Take a list of either strings or <tag>s and turn it into a tree
