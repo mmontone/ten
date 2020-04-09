@@ -5,8 +5,6 @@
   (:export :<output-tag>
            :<else-tag>
            :<control-tag>
-           :<super-tag>
-           :<include-tag>
            :code
            :body
            :parse-template))
@@ -18,6 +16,9 @@
            :raw
            :verb
            :verbatim
+           :super
+           :include
+           :section
            :%ten-stream))
 
 (defpackage ten/compiler
@@ -33,18 +34,23 @@
   (:use #:cl)
   (:import-from :ten/template
                 :template
-                ;;:super
-                ;;:include
+                :esc
                 :raw
                 :verb
-                :verbatim)
+                :verbatim
+                :super
+                :include
+                :section)
   (:export :compile-template
            :template
-           :super
-           :include
+           :esc
            :raw
            :verb
-           :verbatim))
+           :verbatim
+           :super
+           :include
+           :section))
 
 (defpackage #:ten-templates
-  (:use :cl :ten))
+  (:use :cl :ten/template)
+  (:export :super))

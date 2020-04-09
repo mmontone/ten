@@ -82,3 +82,13 @@
   `(flet ((esc (string)
             string))
      ,@body))
+
+(define-symbol-macro super 
+  (progn
+    (call-next-method)
+    ""))
+
+(defmacro include (template &rest args)
+  `(progn
+     (write-string (,template ,@args) %ten-stream)
+     ""))

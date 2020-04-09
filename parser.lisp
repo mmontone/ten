@@ -29,12 +29,6 @@
   ((code :reader code :initarg :code)
    (body :reader body :initarg :body :initform nil)))
 
-(defclass <include-tag> (<tag>)
-  ((code :reader code :initarg :code)))
-
-(defclass <super-tag> (<tag>)
-  ())
-
 (defclass <end-tag> (<tag>)
   ())
 
@@ -72,11 +66,7 @@
                     ((equal text "end")
                      (make-instance '<end-tag>))
                     ((equal text "else")
-                     (make-instance '<else-tag>))
-                    ((equalp (search "include " text) 0)
-                      (make-instance '<include-tag> :code text))
-                    ((equal text "super")
-                      (make-instance '<super-tag>))
+                     (make-instance '<else-tag>))                    
                     (t (make-instance '<control-tag> :code text))))))
 
 (defrule output-string (+ (not "}}"))
