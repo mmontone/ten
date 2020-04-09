@@ -25,7 +25,7 @@
 
 (defmacro template (name (&key (escape-html *escape-html*)
                                (dot-syntax *dot-syntax*)
-                               inherits-from) args &rest body)
+                               extends) args &rest body)
   (multiple-value-bind (required optional rest keyword)
       (alexandria:parse-ordinary-lambda-list args)
     (let* ((slots (append (mapcar (lambda (r)
@@ -52,7 +52,7 @@
                           for arg in arg-names
                           appending (list (intern (symbol-name arg) :keyword) arg))))
       `(progn
-         (defclass ,name (,(or inherits-from 'template))
+         (defclass ,name (,(or extends 'template))
            ,slots)
          (defmethod render-template ((template ,name) %ten-stream)
            (with-slots ,arg-names template
@@ -80,6 +80,8 @@
      ,@body))
 
 (defmacro include (template-name &rest args)
-  `(render-template
-    (make-instance ',template-name ,@args)
-    %ten-stream))
+  `(progn
+     (render-template
+      (make-instance ',template-name ,@args)
+      %ten-stream)
+     ""))

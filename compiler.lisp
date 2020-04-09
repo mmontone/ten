@@ -4,7 +4,8 @@
                 :split-sequence-if)
   (:import-from :ten/template
                 :%ten-stream)
-  (:export :compile-template))
+  (:export :compile-template
+           :*template-package*))
 
 (in-package :ten/compiler)
 
@@ -58,8 +59,6 @@
 
 (defun emit-toplevel (code)
   (emit (aref code 0)))
-
-;;; Interface
 
 (defun compile-template (element &optional (package-name 'ten/template))
   (let ((*template-package* (find-package package-name)))
