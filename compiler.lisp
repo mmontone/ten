@@ -113,19 +113,30 @@
           (loop
              for section in *sections*
              collect
-               `(defmethod render-section ((section (eql ',(first section)))
-                                           (template ,*compiling-template*)
-                                           %ten-stream)
-                  (declare (ignore section template))
-                  ,@(second section)))))
+               (destructuring-bind (section-name body) section
+                 (multiple-value-bind (slots slots-init arg-names)
+                     (ten/template::lambda-list-slots (getf *compiling-template* :args))
+                   (declare (ignore slots slots-init))
+                   (let ((body (if (or (not (member :dot-syntax (getf *compiling-template* :options)))
+                                       (getf (getf *compiling-template* :options) :dot-syntax))
+                                   `((access:with-dot ()
+                                       ,@body))
+                                   body)))
+                     `(defmethod render-section ((section (eql ',section-name))
+                                                 (template ,(getf *compiling-template* :name))
+                                                 %ten-stream)
+                        (declare (ignore section))
+                        (with-slots ,arg-names template
+                          ,@body))))))))
 
 (defun call-with-template-header-options (header func)
   (let* ((expr (read-template-expressions (code header))))
     (if (eql (first expr) 'ten/template:template)
         (destructuring-bind (_ template-name options args)
             expr
-          (declare (ignore _ args))
-          (let ((*compiling-template* template-name)
+          (let ((*compiling-template* (list :name template-name
+                                            :options options
+                                            :args args))
                 (*template-package* (or (find-package (getf options :package)) *template-package*))
                 (*sections* nil))
             (start-template-compilation template-name)

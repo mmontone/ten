@@ -18,13 +18,7 @@
       (who:escape-string string)
       string))
 
-(defmacro template (name (&key (escape-html *escape-html*)
-                               (dot-syntax *dot-syntax*)
-                               extends
-                               package
-                               control-delimiters
-                               output-delimiters)
-                            args &rest body)
+(defun lambda-list-slots (args)
   (multiple-value-bind (required optional rest keyword)
       (alexandria:parse-ordinary-lambda-list args)
     (let* ((slots (append (mapcar (lambda (r)
@@ -49,11 +43,23 @@
                                       keyword)))
            (slots-init (loop
                           for arg in arg-names
-                          appending (list (intern (symbol-name arg) :keyword) arg)))
-           (body (if dot-syntax
-                     `((access:with-dot ()
-                         ,@body))
-                     body)))
+                          appending (list (intern (symbol-name arg) :keyword) arg))))
+      (values slots slots-init arg-names))))
+  
+(defmacro template (name (&key (escape-html *escape-html*)
+                               (dot-syntax *dot-syntax*)
+                               extends
+                               package
+                               control-delimiters
+                               output-delimiters)
+                            args &rest body)
+  
+  (multiple-value-bind (slots slots-init arg-names)
+      (lambda-list-slots args)
+    (let ((body (if dot-syntax
+                    `((access:with-dot ()
+                        ,@body))
+                    body)))
       `(progn
          (defclass ,name (,(or extends 'template))
            ,slots)
