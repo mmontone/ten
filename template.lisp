@@ -1,5 +1,3 @@
-;;; ten-template: The package where templates are compiled
-
 (in-package :ten/template)
 
 (defvar *escape-html* t)
