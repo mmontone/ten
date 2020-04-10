@@ -18,6 +18,7 @@ script:
                    (uiop:quit -1)))'
        -e '(ql:quickload :ten)'
        -e '(ql:quickload :ten.tests)'
+       -e '(asdf:test-system :ten)'
 
 notifications:
   email:
