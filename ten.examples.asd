@@ -18,4 +18,5 @@
              (:ten-template "i18n" :file-extension "html" :package :ten/examples)
              (:ten-template "many" :file-extension "html" :package :ten/examples)
              (:ten-template "filters" :file-extension "html" :package :ten/examples)
+             (:ten-template "escaping" :file-extension "html" :package :ten/examples)
              ))))

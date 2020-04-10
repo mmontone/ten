@@ -22,3 +22,9 @@
   (is (not (null (search "This is child3 body" (ten/examples:child3)))))
   (is (not (null (search "This is child2 body" (ten/examples:child3)))))
   (is (not (null (search "This is parent body" (ten/examples:child3))))))
+
+(def-test escaping-test ()
+  (is (null (search "<div></div>" (ten/examples:escaping2 "<div></div>"))))
+  (is (not (null (search "&lt;div&gt;&lt;/div&gt;" (ten/examples:escaping2 "<div></div>")))))
+  (is (not (null (search "<div></div>" (ten/examples:escaping3 "<div></div>")))))
+  (is (not (null (search "<div></div>" (ten/examples:escaping4 "<div></div>"))))))

@@ -1,0 +1,22 @@
+{% template escaping1 () () %}
+This is HTML code:
+{% begin-raw %}
+<div class="foo"></div>
+{% end %}
+{% end %}
+
+{% template escaping2 () (str) %}
+This is escaped: {{ str }}
+{% end %}
+
+{% template escaping3 () (html) %}
+This is HTML code:
+{{ html | raw}}
+{% end %}
+
+{% template escaping4 () (html) %}
+This is HTML code:
+{% begin-raw %}
+{{ html }}
+{% end %}
+{% end %}

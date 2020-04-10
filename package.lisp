@@ -16,6 +16,9 @@
            :raw
            :verb
            :verbatim
+           :begin-raw
+           :begin-verbatim
+           :begin-verb
            :super
            :section
            :_
@@ -40,6 +43,9 @@
                 :verbatim
                 :super
                 :section
+                :begin-raw
+                :begin-verb
+                :begin-verbatim
                 :_)
   (:export :compile-template
            :template
@@ -49,6 +55,9 @@
            :verbatim
            :super
            :section
+           :begin-raw
+           :begin-verb
+           :begin-verbatim
            :_))
 
 (defpackage #:ten-templates
