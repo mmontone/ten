@@ -28,15 +28,13 @@
 
 (defmethod emit ((tag <output-tag>))
   (let ((expressions (read-template-expressions (code tag))))
-    (alexandria:with-unique-names (string-stream)
-      `(write-string
-        (esc
-         (with-output-to-string (,string-stream)
-           (princ ,(if (= (length expressions) 1)
-                       (first expressions)
-                       expressions)
-                  ,string-stream)))
-        %ten-stream))))
+    `(write-string
+      (esc
+       (princ-to-string
+        ,(if (= (length expressions) 1)
+             (first expressions)
+             expressions)))
+      %ten-stream)))
 
 (defun else-tag-p (element)
   (typep element '<else-tag>))
