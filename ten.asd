@@ -15,5 +15,5 @@
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  ;;:in-order-to ((test-op (test-op ten-test)))
+  :in-order-to ((asdf:test-op (asdf:test-op :ten.tests)))
   )

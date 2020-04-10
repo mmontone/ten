@@ -1,11 +1,11 @@
-{% template dot-syntax-ex2 () (user) %}
+{% template dot-syntax-2 () (user) %}
 {% access:with-dot () %}
 <html>
   <head>
   </head>
   <body>
 
-    Hello {{ user.firstname }} {{user.lastname}}
+    Hello {{ user.firstname | string-capitalize }} {{user.lastname | string-capitalize }}
 
   </body>
 </html>

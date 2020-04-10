@@ -1,7 +1,7 @@
-{% template filter1 () (str) %}
+{% template filters1 () (str) %}
 {{str | string-upcase}}
 {% end %}
 
-{% template filter2 () (str) %}
+{% template filters2 () (str) %}
 {{str | string-upcase | string-trim '(#\%) _}}
 {% end %}

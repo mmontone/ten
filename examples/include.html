@@ -1,18 +1,18 @@
-{% template include-ex () (xs) %}
+{% template include () (xs) %}
 <html>
   <head>
   </head>
   <body>
     <ul>
       {% loop for x in xs do %}
-      {%raw%}{{ item-ex x }}{%end%}
-      {{ include item-ex x }}
+      {%raw%}{{ item x }}{%end%}
+      {{ include item x }}
       {% end %}
     </ul>
   </body>
 </html>
 {% end %}
 
-{% template item-ex () (x) %}
+{% template item () (x) %}
 <li class="included-item">{{x}}</li>
 {% end %}
