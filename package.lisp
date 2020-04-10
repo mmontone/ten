@@ -19,6 +19,7 @@
            :super
            :include
            :section
+           :_
            :%ten-stream))
 
 (defpackage ten/compiler
@@ -40,7 +41,8 @@
                 :verbatim
                 :super
                 :include
-                :section)
+                :section
+                :_)
   (:export :compile-template
            :template
            :esc
@@ -49,7 +51,8 @@
            :verbatim
            :super
            :include
-           :section))
+           :section
+           :_))
 
 (defpackage #:ten-templates
   (:use :cl :ten/template)

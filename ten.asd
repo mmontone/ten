@@ -10,6 +10,7 @@
                (:file "template")
                (:file "compiler")
                (:file "asdf")
+               (:file "i18n")
                (:file "ten"))
   :long-description
   #.(uiop:read-file-string
