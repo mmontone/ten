@@ -16,5 +16,6 @@
              (:ten-template "dot-syntax" :file-extension "html" :package :ten/examples)
              (:ten-template "dot-syntax-2" :file-extension "html" :package :ten/examples)
              (:ten-template "i18n" :file-extension "html" :package :ten/examples)
-             (:ten-template "many" :file-extension "html" :package :ten/examples)      
+             (:ten-template "many" :file-extension "html" :package :ten/examples)
+             (:ten-template "filters" :file-extension "html" :package :ten/examples)
              ))))

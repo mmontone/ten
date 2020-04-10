@@ -18,6 +18,25 @@
          until (eq form end)
          collect form))))
 
+(defun extract-filters (string)
+  (let ((parts (mapcar 'read-template-expressions (split-sequence:split-sequence #\| string))))
+    (values (first parts) (rest parts))))
+
+(defun apply-filters (code filters)
+  (loop
+     :with result := code
+     :for filter in filters
+     :do (setf result
+               (alexandria:if-let
+                   ((pos (position '_ filter :test 'equalp)))
+                 (let ((replaced filter))
+                   (setf (nth pos replaced) result)
+                   replaced)
+                 (list* (first filter)
+                        result
+                        (rest filter))))
+     :finally (return result)))
+       
 ;;; Compiler
 
 (defmethod emit ((str string))
@@ -27,13 +46,16 @@
   `(progn ,@(loop for elem across vec collecting (emit elem))))
 
 (defmethod emit ((tag <output-tag>))
-  (let ((expressions (read-template-expressions (code tag))))
+  (multiple-value-bind (expr filters)
+      (extract-filters (code tag))
     `(write-string
       (esc
        (princ-to-string
-        ,(if (= (length expressions) 1)
-             (first expressions)
-             expressions)))
+        ,(apply-filters
+          (if (= (length expr) 1)
+              (first expr)
+              expr)
+          filters)))
       %ten-stream)))
 
 (defun else-tag-p (element)
