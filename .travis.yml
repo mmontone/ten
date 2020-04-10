@@ -17,7 +17,7 @@ script:
                    (declare (ignore c h))
                    (uiop:quit -1)))'
        -e '(ql:quickload :ten)'
-       -e '(ql:quickload :ten-tests)'
+       -e '(ql:quickload :ten.tests)'
 
 notifications:
   email:
