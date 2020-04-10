@@ -51,16 +51,18 @@
                                       keyword)))
            (slots-init (loop
                           for arg in arg-names
-                          appending (list (intern (symbol-name arg) :keyword) arg))))
+                          appending (list (intern (symbol-name arg) :keyword) arg)))
+           (body (if dot-syntax
+                     `((access:with-dot ()
+                         ,@body))
+                     body)))
       `(progn
          (defclass ,name (,(or extends 'template))
            ,slots)
-         (defmethod render-template ((template ,name) %ten-stream)
-           ,(if extends
-                `(call-next-method)
-                `(with-slots ,arg-names template
-                   (access:with-dot ()
-                     ,@body))))
+         ,@(when (not extends)
+            `((defmethod render-template ((template ,name) %ten-stream)
+               (with-slots ,arg-names template
+                  ,@body))))
          (defun ,name ,args
            (let ((*rendering-template* (make-instance ',name ,@slots-init)))
              (with-output-to-string (%ten-stream)
@@ -83,10 +85,10 @@
             string))
      ,@body))
 
-(define-symbol-macro super 
-  (progn
-    (call-next-method)
-    ""))
+(define-symbol-macro super
+    (progn
+      (call-next-method)
+      ""))
 
 (defmacro include (template &rest args)
   `(progn
