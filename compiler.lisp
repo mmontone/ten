@@ -67,13 +67,17 @@
   (typep element '<control-tag>))
 
 (defun emit-toplevel (code)
-  (emit (aref code 0)))
+  (emit code))
 
-(defun compile-template (element &optional (package-name 'ten/template))
-  (let ((*template-package* (find-package package-name)))
-    (call-with-template-header-options
-     element
-     (lambda () (emit-toplevel element)))))
+(defun compile-template (elements &optional (package-name 'ten/template))
+  (loop
+     for element across elements
+     when (not (stringp element))
+     appending
+       (let ((*template-package* (find-package package-name)))
+         (call-with-template-header-options
+          element
+          (lambda () (emit-toplevel element))))))
 
 (defun start-template-compilation (template-name)
   (declare (ignore template-name)))
@@ -91,9 +95,8 @@
                   (declare (ignore section template))
                   ,@(second section)))))
 
-(defun call-with-template-header-options (parsed-tokens func)
-  (let* ((header (aref parsed-tokens 0))
-         (expr (read-template-expressions (code header))))
+(defun call-with-template-header-options (header func)
+  (let* ((expr (read-template-expressions (code header))))
     (if (eql (first expr) 'ten/template:template)
         (destructuring-bind (_ template-name options args)
             expr
