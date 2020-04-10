@@ -63,32 +63,38 @@
                   ,@body))))
          (defun ,name ,args
            (let ((*rendering-template* (make-instance ',name ,@slots-init)))
-             (with-output-to-string (%ten-stream)
-               (render-template *rendering-template*
-                                %ten-stream))))
+             (values
+              (with-output-to-string (%ten-stream)
+                (render-template *rendering-template*
+                                 %ten-stream))
+              t)))
          (compile ',name)
          (export ',name (symbol-package ',name))))))
 
-(defmacro raw (&body body)
+(defmacro begin-raw (&body body)
   `(let ((*escape-html* nil))
      ,@body))
 
-(defmacro verb (&body body)
+(defmacro begin-verb (&body body)
   `(flet ((esc (string)
             string))
      ,@body))
 
-(defmacro verbatim (&body body)
+(defmacro begin-verbatim (&body body)
   `(flet ((esc (string)
             string))
      ,@body))
+
+(defun raw (str)
+  (values str t))
+
+(defun verb (str)
+  (values str t))
+
+(defun verbatim (str)
+  (values str t))
 
 (define-symbol-macro super
     (progn
       (call-next-method)
       ""))
-
-(defmacro include (template &rest args)
-  `(progn
-     (write-string (,template ,@args) %ten-stream)
-     ""))

@@ -17,7 +17,6 @@
            :verb
            :verbatim
            :super
-           :include
            :section
            :_
            :%ten-stream))
@@ -40,7 +39,6 @@
                 :verb
                 :verbatim
                 :super
-                :include
                 :section
                 :_)
   (:export :compile-template
@@ -50,7 +48,6 @@
            :verb
            :verbatim
            :super
-           :include
            :section
            :_))
 

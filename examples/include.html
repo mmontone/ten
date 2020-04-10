@@ -5,8 +5,7 @@
   <body>
     <ul>
       {% loop for x in xs do %}
-      {%raw%}{{ item x }}{%end%}
-      {{ include item x }}
+      {{ item x }}
       {% end %}
     </ul>
   </body>

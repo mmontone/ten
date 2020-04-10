@@ -48,15 +48,19 @@
 (defmethod emit ((tag <output-tag>))
   (multiple-value-bind (expr filters)
       (extract-filters (code tag))
-    `(write-string
-      (esc
-       (princ-to-string
-        ,(apply-filters
-          (if (= (length expr) 1)
-              (first expr)
-              expr)
-          filters)))
-      %ten-stream)))
+    (alexandria:with-unique-names (out raw)
+      `(multiple-value-bind (,out ,raw)
+           ,(apply-filters
+             (if (= (length expr) 1)
+                 (first expr)
+                 expr)
+             filters)
+         (if ,raw
+             ;; if the second return value is T, the result of the expression
+             ;; is not escaped
+             (princ ,out %ten-stream)
+             (write-string (esc (princ-to-string ,out))
+                           %ten-stream))))))
 
 (defun else-tag-p (element)
   (typep element '<else-tag>))
