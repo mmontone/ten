@@ -1,0 +1,56 @@
+{% template parent-ex () () %}
+<html>
+  <head>
+    <title>Inheritance</title>
+  </head>
+  <body>
+    {% section body %}
+    This is parent body
+    {% end %}
+  </body>
+</html>
+{% end %}
+
+{% ten:template child1 (:extends parent-ex) () %}
+
+{% section body %}
+This is child1 body
+{% end %}
+
+{% end %}
+
+{% ten:template child2 (:extends parent-ex) () %}
+
+{% section body %}
+This is child2 body
+{{super}}
+{% end %}
+
+{% end %}
+
+{% ten:template child3 (:extends child2) () %}
+
+{% section body %}
+{{super}}
+This is child body
+{% end %}
+
+{% end %}
+
+{% ten:template child4 (:extends child1) () %}
+
+{% section body %}
+{{super}}
+This is child body
+{% end %}
+
+{% end %}
+
+{% template super-ex (:extends parent-ex) () %}
+
+{% section body %}
+{{ super }}
+This is child body
+{% end %}
+
+{% end %}

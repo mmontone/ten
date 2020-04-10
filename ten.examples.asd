@@ -11,10 +11,7 @@
             :components
             ((:file "package")
              (:ten-template "ex1" :file-extension "html" :package :ten/examples)
-             (:ten-template "parent" :file-extension "html" :package :ten/examples)
-             (:ten-template "child" :file-extension "html" :package :ten/examples)
-             (:ten-template "super" :file-extension "html" :package :ten/examples)
-             (:ten-template "item-ex" :file-extension "html" :package :ten/examples)
+             (:ten-template "inheritance" :file-extension "html" :package :ten/examples)
              (:ten-template "include" :file-extension "html" :package :ten/examples)
              (:ten-template "dot-syntax" :file-extension "html" :package :ten/examples)
              (:ten-template "dot-syntax-2" :file-extension "html" :package :ten/examples)
