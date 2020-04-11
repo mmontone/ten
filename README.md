@@ -109,7 +109,12 @@ To compile the templates, use `:ten-template` in the project's ASDF system defin
 The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
 
 ## Inheritance
-TO BE WRITTEN
+
+To make a template inherit from anohter, use the `:extends` option in template definition.
+Templates are organized in `sections`. `sections` are the parts of the templates that are inherited.
+Use `{{super}}` inside a `section` to render the parent `section`.
+
+Have a look at some [examples of template inheritance](https://github.com/mmontone/ten/blob/master/examples/inheritance.html).
 
 ## Dot syntax
 TO BE WRITTEN
