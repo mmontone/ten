@@ -22,6 +22,40 @@ TEN leverages CLOS for implementing template inheritance.
 
 ## Usage
 
+A TEN template looks like this:
+
+```jinja
+{% template ex1 () (user enabled &key items) %}
+<html>
+  <head>
+  </head>
+  <body>
+
+    {{ user.name | string-capitalize }}
+
+    {% if enabled %}
+    Enabled
+    {% else %}
+    Disabled
+    {% end %}
+
+    {% when items %}
+    <ul>
+      {% loop for item in items do %}
+      <li>{{ item }}</li>
+      {% end %}
+    </ul>
+    {% end %}
+
+    {% when (not items) %}
+    There are no items
+    {% end %}    
+  </body>
+</html>
+{% end %}
+
+```
+
 There are two types of tags:
 - *Output tags*: `{{` <var> `}}`, becomes <var>, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
 - *Control tags*: `{%` <expr> `%} body {% end %}`, becomes `(<expr> body)`.
