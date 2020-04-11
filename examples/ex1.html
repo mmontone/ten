@@ -1,34 +1,28 @@
-{% ten:template ex1 () (foo bar &key list) %}
+{% template ex1 () (user enabled &key items) %}
 <html>
   <head>
   </head>
   <body>
-    {{ foo }}
 
-    {% if bar %}
-    True
+    {{ user.name | string-capitalize }}
+
+    {% if enabled %}
+    Enabled
     {% else %}
-    False
+    Disabled
     {% end %}
 
-    {% when list %}
+    {% when items %}
     <ul>
-      {% loop for item in list do %}
+      {% loop for item in items do %}
       <li>{{ item }}</li>
       {% end %}
     </ul>
     {% end %}
 
-    {% when (not list) %}
-    There's no list
-    {% end %}
-    
-
-    {{ princ-to-string bar }}
-
-    {% raw %}
-    This goes unescaped
-    {% end %}
+    {% when (not items) %}
+    There are no items
+    {% end %}    
   </body>
 </html>
 {% end %}
