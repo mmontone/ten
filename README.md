@@ -124,7 +124,7 @@ If you are using Emacs + SLIME, add this to your `.emacs` file:
   (slime-eval `(ten:compile-template (cl::pathname ,(buffer-file-name)))))
 ```
 
-Then use do M-X ten-compile-template when on the template buffer. Note that you may want to have `:package` option specified in the template so that it gets compiled into the correct package.
+Then use do `M-X ten-compile-template` when on the template buffer. Note that you may want to have `:package` option specified in the template so that it gets compiled into the correct package.
 
 ## Inheritance
 
