@@ -157,7 +157,7 @@ For example, `string-trim` receives the string to trim as second value, so, to a
 
 `{{str | string-trim '(#\%) _}}`
 
-Have a look at some [examples of filters](https://github.com/mmontone/ten/tree/master/examples/filters.html)
+Have a look at some [examples of filters](https://github.com/mmontone/ten/tree/master/examples/filters.html).
 
 ## Examples
 
@@ -170,4 +170,3 @@ Load and have a look at the [examples](https://github.com/mmontone/ten/tree/mast
 ## License
 
 MIT
-
