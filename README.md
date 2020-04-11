@@ -61,10 +61,10 @@ There are two types of tags:
 - *Output tags*: `{{ <var> }}`, becomes `<var>`, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
 - *Control tags*: `{% <expr> %} body {% end %}`, becomes `(<expr> body)`.
   
-Control tags are used to specify Lisp code "inline" in the template, and
-tend to contain imperative code, their return values are ignored.
+Control tags which parts of the tamplate are rendered; their return value is ignored.
+
 The value returned by output tags are interpolated into the template. The function called can be any
-Lisp function, or another template.
+Lisp function, or another template (because templates are compiled to functions).
 
  For example:
  
@@ -99,16 +99,21 @@ Template options are:
 - `:package`: The package in which to compile and export the template. By default, templates are compiled and exported in `TEN-TEMPLATES` package.
 - `:escape-html`: Whether to escape html in output tags. Default is T.
 
-## ASDF
+## Templates compilation
 
-To compile the templates, use `:ten-template` in the project's ASDF system definition:
+For manually compiling templates, use `ten:compile-template` function.
+
+But more useful is to include them in the ASDF system definition of your project.
+
+Use `:ten-template` in the project's ASDF system definition:
 
 ```lisp
 (:ten-template "filename")
 ```
+
 The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
 
-For manually compiling templates, use `ten:compile-template` function.
+Templates are compiled into functions and exported in the indicated package. The default package is `ten-templates`, but that can be changed from either the ASDF system definition, the `ten:compile-template` parameters, or the `{% template %}` options.
 
 ## Inheritance
 
