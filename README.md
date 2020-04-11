@@ -19,7 +19,7 @@ Like ECO, TEN compiles templates to Lisp code, but has some differences:
 - Convenient syntax for applying filters.
 - Configurable syntax delimiters (planned, not done yet).
 
-My purpose for writing yet another template system for Common Lisp is to combine the simpicity and usability of ECO (the whole Lisp language at your disposal for writing the templates), with features available in more complex template systems like [Djula](https://mmontone.github.io/djula/) that makes things easier for web development (inheritance, dot syntax, etc.).
+My reasons for writing yet another template system for Common Lisp is to combine the simpicity and usability of ECO (the whole Lisp language at your disposal for writing the templates), with features available in more complex template systems like [Djula](https://mmontone.github.io/djula/) that makes things easier for web development (inheritance, dot syntax, etc.).
 
 ## Usage
 
