@@ -16,7 +16,7 @@ Like ECO, TEN compiles templates to Lisp code, but has some differences:
 - Two types of tags only. Control and output.
 - Support for templates inheritance.
 - Dot syntax for accessing template data.
-- Special syntax for filters.
+- Convenient syntax for applying filters.
 - Configurable syntax delimiters (planned, not done yet).
 
 TEN leverages CLOS for implementing template inheritance.
