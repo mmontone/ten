@@ -127,9 +127,16 @@ To include other templates, just use the output tag with the name of the include
 Have a look at [an example](https://github.com/mmontone/ten/blob/master/examples/include.html).
 
 ## Dot syntax
-TO BE WRITTEN
 
+When dot syntax is enabled (it is, by default), it is possible to conveniently access objects with dot syntax in templates:
 
+`{{ object.key1.key2 }}`
+
+that gets translated by [access](https://github.com/AccelerationNet/access) library to:
+
+`(access:accesses obj 'key1 'key2)`
+
+Have a look at [an example](https://github.com/mmontone/ten/blob/master/examples/dot-syntax.html).
 
 ## Filters
 TO BE WRITTEN
