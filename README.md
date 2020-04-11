@@ -64,10 +64,16 @@ Template options are:
 - `:escape-html`: Whether to escape html in output tags. Default is T.
 
 ## Inheritance
-TODO
+TO BE WRITTEN
+
+## Dot syntax
+TO BE WRITTEN
+
+## Includes
+TO BE WRITTEN
 
 ## Filters
-TODO
+TO BE WRITTEN
 
 ## Examples
 
