@@ -173,6 +173,10 @@ For example, `string-trim` receives the string to trim as second value, so, to a
 
 `{{str | string-trim '(#\%) _}}`
 
+Filters syntax is completly optional, you can disregard it and just apply functions instead:
+
+`{{ string-trim '(#\%) (string-capitalize str) }}`
+
 Have a look at some [examples of filters](https://github.com/mmontone/ten/tree/master/examples/filters.html).
 
 ## Examples
