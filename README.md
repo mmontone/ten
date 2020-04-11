@@ -13,6 +13,7 @@ NOTE: This is alpha quality. Not all design decisions have been made yet and thi
 TEN is a fork of [ECO template system](https://github.com/eudoxia0/eco) by Fernando Borretti.
 
 Like ECO, TEN compiles templates to Lisp code, but has some differences:
+- Two types of tags only. Control and output.
 - Support for templates inheritance.
 - Dot syntax for accessing template data.
 - Special syntax for filters.
