@@ -105,7 +105,7 @@ To compile the templates, use `:ten-template` in the project's ASDF system defin
 ```lisp
 (:ten-template "filename")
 ```
-The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at `ten/examples` package for an example.
+The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
 
 ## Inheritance
 TO BE WRITTEN
