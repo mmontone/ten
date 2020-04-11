@@ -83,7 +83,7 @@ false branches. For example:
   No recent posts.
 {% end %}
 ```
-## Templates
+## Template definition
 
 Templates are defined with the following syntax:
 
@@ -99,7 +99,7 @@ Template options are:
 - `:package`: The package in which to compile and export the template. By default, templates are compiled and exported in `TEN-TEMPLATES` package.
 - `:escape-html`: Whether to escape html in output tags. Default is T.
 
-## Templates compilation
+## Template compilation
 
 For manually compiling templates, use `ten:compile-template` function.
 
