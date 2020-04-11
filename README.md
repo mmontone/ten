@@ -164,7 +164,7 @@ Filters are just normal functions that get applied to the value.
 
 Filters are translated to functions application like this:
 
-`(func1 (func2 (.. (funcN value arg1 .. argN)) arg1 .. argN) arg1 .. argN)`
+`(funcN (.. (func2 (func1 value arg1 .. argN) arg1 .. argN))) arg1 .. argN)`
 
 In general, filter functions are expected to receive the value to be filtered as first parameter. 
 But, for several Lisp functions that's not the case. In those cases, it is possible to use `_` to indicate where the filter function should receive the value.
