@@ -19,7 +19,7 @@ Like ECO, TEN compiles templates to Lisp code, but has some differences:
 - Convenient syntax for applying filters.
 - Configurable syntax delimiters (planned, not done yet).
 
-TEN leverages CLOS for implementing template inheritance.
+My purpose for writing yet another template system for Common Lisp is to combine the simpicity and usability of ECO (the whole Lisp language at your disposal for writing the templates), with features available in more complex template systems like [Djula](https://mmontone.github.io/djula/) that makes things easier for web development (inheritance, dot syntax, etc.).
 
 ## Usage
 
@@ -61,7 +61,7 @@ There are two types of tags:
 - *Output tags*: `{{ <var> }}`, becomes `<var>`, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
 - *Control tags*: `{% <expr> %} body {% end %}`, becomes `(<expr> body)`.
   
-Control tags which parts of the tamplate are rendered; their return value is ignored.
+Control tags control which parts of the tamplate are rendered; their return value is ignored.
 
 The value returned by output tags are interpolated into the template. The function called can be any
 Lisp function, or another template (because templates are compiled to functions).
@@ -133,6 +133,8 @@ To make a template inherit from anohter, use the `:extends` option in template d
 Templates are organized in `sections`. `sections` are the parts of the templates that are inherited.
 
 Use `{{super}}` inside a `section` to render the parent `section`.
+
+TEN leverages CLOS for implementing template inheritance. Templates are compiled to classes and generic functions `render-template` and `render-section`.
 
 Have a look at some [examples of template inheritance](https://github.com/mmontone/ten/blob/master/examples/inheritance.html).
 
