@@ -108,19 +108,28 @@ To compile the templates, use `:ten-template` in the project's ASDF system defin
 ```
 The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
 
+For manually compiling templates, use `ten:compile-template` function.
+
 ## Inheritance
 
 To make a template inherit from anohter, use the `:extends` option in template definition.
+
 Templates are organized in `sections`. `sections` are the parts of the templates that are inherited.
+
 Use `{{super}}` inside a `section` to render the parent `section`.
 
 Have a look at some [examples of template inheritance](https://github.com/mmontone/ten/blob/master/examples/inheritance.html).
 
+## Includes
+
+To include other templates, just use the output tag with the name of the included template. Remember that templates are compiled to functions; just call those functions from the template to include them.
+
+Have a look at [an example](https://github.com/mmontone/ten/blob/master/examples/include.html).
+
 ## Dot syntax
 TO BE WRITTEN
 
-## Includes
-TO BE WRITTEN
+
 
 ## Filters
 TO BE WRITTEN
