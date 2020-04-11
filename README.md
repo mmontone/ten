@@ -57,8 +57,8 @@ A TEN template looks like this:
 ```
 
 There are two types of tags:
-- *Output tags*: `{{` <var> `}}`, becomes <var>, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
-- *Control tags*: `{%` <expr> `%} body {% end %}`, becomes `(<expr> body)`.
+- *Output tags*: `{{ <var> }}`, becomes `<var>`, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
+- *Control tags*: `{% <expr> %} body {% end %}`, becomes `(<expr> body)`.
   
 Control tags are used to specify Lisp code "inline" in the template, and
 tend to contain imperative code, their return values are ignored.
@@ -96,6 +96,15 @@ Template options are:
 - `:dot-syntax`: If T, templates are compiled with dot syntax enabled. Dot syntax is implemented via the Lisp library `access`. Default is T.
 - `:package`: The package in which to compile and export the template. By default, templates are compiled and exported in `TEN-TEMPLATES` package.
 - `:escape-html`: Whether to escape html in output tags. Default is T.
+
+## ASDF
+
+To compile the templates, use `:ten-template` in the project's ASDF system definition:
+
+```lisp
+(:ten-template "filename")
+```
+The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at `ten/examples` package for an example.
 
 ## Inheritance
 TO BE WRITTEN
