@@ -94,6 +94,7 @@ Templates are defined with the following syntax:
 ```
 
 Template options are:
+- `:extends` : The template to extend from.
 - `:dot-syntax`: If T, templates are compiled with dot syntax enabled. Dot syntax is implemented via the Lisp library `access`. Default is T.
 - `:package`: The package in which to compile and export the template. By default, templates are compiled and exported in `TEN-TEMPLATES` package.
 - `:escape-html`: Whether to escape html in output tags. Default is T.
