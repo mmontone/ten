@@ -139,7 +139,25 @@ that gets translated by [access](https://github.com/AccelerationNet/access) libr
 Have a look at [an example](https://github.com/mmontone/ten/blob/master/examples/dot-syntax.html).
 
 ## Filters
-TO BE WRITTEN
+
+TEN implements some convenient syntax for filters.
+
+`{{ value | func1 arg1 .. argN| func2 arg1 .. argN| .. | funcN arg1 .. argN}}`
+
+Filters are just normal functions that get applied to the value.
+
+Filters are translated to functions application like this:
+
+`(func1 (func2 (.. (funcN value arg1 .. argN)) arg1 .. argN) arg1 .. argN)`
+
+In general, filter functions are expected to receive the value to be filtered as first parameter. 
+But, for several Lisp functions that's not the case. In those cases, it is possible to use `_` to indicate where the filter function should receive the value.
+
+For example, `string-trim` receives the string to trim as second value, so, to apply it as filter we do:
+
+`{{str | string-trim '(#\%) _}}`
+
+Have a look at some [examples of filters](https://github.com/mmontone/ten/tree/master/examples/filters.html)
 
 ## Examples
 
