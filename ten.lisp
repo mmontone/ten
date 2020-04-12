@@ -11,4 +11,5 @@
   (let* ((expanded-template (expand-template string-or-pathname package-name)))
     (if (atom (first expanded-template))
         (eval expanded-template)
-        (mapcar 'eval expanded-template))))
+        (mapcar 'eval expanded-template)))
+  t)
