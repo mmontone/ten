@@ -47,7 +47,8 @@
                 :begin-verb
                 :begin-verbatim
                 :_)
-  (:export :compile-template
+  (:export :expand-template
+           :compile-template
            :template
            :esc
            :raw

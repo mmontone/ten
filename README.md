@@ -116,15 +116,11 @@ The default file extension is "ten", but another can be specified via the `:file
 Templates are compiled into functions and exported in the indicated package. The default package is `ten-templates`, but that can be changed from either the ASDF system definition, the `ten:compile-template` parameters, or the `{% template %}` options.
 
 When developing your project it is useful to be able to compile templates in an interactive way. 
-If you are using Emacs + SLIME, add this to your `.emacs` file:
+If you are using Emacs + SLIME, load `ten.el` file.
 
-```elisp
-(defun ten-compile-template ()
-  (interactive)
-  (slime-eval `(ten:compile-template (cl::pathname ,(buffer-file-name)))))
-```
+Then use `M-X ten-compile-template` when on the template buffer to compile templates. Note that you may want to have `:package` option specified in the template so that it gets compiled into the correct package.
 
-Then use do `M-X ten-compile-template` when on the template buffer. Note that you may want to have `:package` option specified in the template so that it gets compiled into the correct package.
+For debugging, you can inspect the expanded template using `ten:expand-template` function. In Emacs, go to template buffer an do `M-x ten-expand-template`.
 
 ## Inheritance
 
