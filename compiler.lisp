@@ -14,9 +14,9 @@
         (end '#:eof))
     (with-input-from-string (s string)
       (loop
-         for form = (read s nil end)
-         until (eq form end)
-         collect form))))
+        for form = (read s nil end)
+        until (eq form end)
+        collect form))))
 
 (defun extract-filters (string)
   (let ((parts (mapcar 'read-template-expressions (split-sequence:split-sequence #\| string))))
@@ -24,19 +24,19 @@
 
 (defun apply-filters (code filters)
   (loop
-     :with result := code
-     :for filter in filters
-     :do (setf result
-               (alexandria:if-let
-                   ((pos (position '_ filter :test 'equalp)))
-                 (let ((replaced filter))
-                   (setf (nth pos replaced) result)
-                   replaced)
-                 (list* (first filter)
-                        result
-                        (rest filter))))
-     :finally (return result)))
-       
+    :with result := code
+    :for filter in filters
+    :do (setf result
+              (alexandria:if-let
+                  ((pos (position '_ filter :test 'equalp)))
+                (let ((replaced filter))
+                  (setf (nth pos replaced) result)
+                  replaced)
+                (list* (first filter)
+                       result
+                       (rest filter))))
+    :finally (return result)))
+
 ;;; Compiler
 
 (defmethod emit ((str string))
@@ -69,10 +69,10 @@
   (flet ((emit-body (body)
            (let ((else-tag-pos (position-if 'else-tag-p body)))
              (loop
-                for elem in (if else-tag-pos
-                                (split-sequence-if 'else-tag-p body)
-                                (coerce body 'list))
-                collecting (emit elem)))))
+               for elem in (if else-tag-pos
+                               (split-sequence-if 'else-tag-p body)
+                               (coerce body 'list))
+               collecting (emit elem)))))
     (let ((exprs (read-template-expressions (code tag))))
       (if (eql (first exprs) 'ten/template::section)
           ;; sections are a special case
@@ -95,13 +95,13 @@
 
 (defun compile-template (elements &optional (package-name 'ten/template))
   (loop
-     for element across elements
-     when (not (stringp element))
-     appending
-       (let ((*template-package* (find-package package-name)))
-         (call-with-template-header-options
-          element
-          (lambda () (emit-toplevel element))))))
+    for element across elements
+    when (not (stringp element))
+      appending
+      (let ((*template-package* (find-package package-name)))
+        (call-with-template-header-options
+         element
+         (lambda () (emit-toplevel element))))))
 
 (defun start-template-compilation (template-name)
   (declare (ignore template-name)))
@@ -111,35 +111,37 @@
   ;; Handle the sections here
   (append result
           (loop
-             for section in *sections*
-             collect
-               (destructuring-bind (section-name body) section
-                 (multiple-value-bind (slots slots-init arg-names)
-                     (ten/template::lambda-list-slots (getf *compiling-template* :args))
-                   (declare (ignore slots slots-init))
-                   (let ((body (if (or (not (member :dot-syntax (getf *compiling-template* :options)))
-                                       (getf (getf *compiling-template* :options) :dot-syntax))
-                                   `((access:with-dot ()
-                                       ,@body))
-                                   body)))
-                     `(defmethod render-section ((section (eql ',section-name))
-                                                 (template ,(getf *compiling-template* :name))
-                                                 %ten-stream)
-                        (declare (ignore section))
-                        (with-slots ,arg-names template
-                          ,@body))))))))
+            for section in *sections*
+            collect
+            (destructuring-bind (section-name body) section
+              (multiple-value-bind (slots slots-init arg-names)
+                  (ten/template::lambda-list-slots (getf *compiling-template* :args))
+                (declare (ignore slots slots-init))
+                (let ((body (if (or (not (member :dot-syntax (getf *compiling-template* :options)))
+                                    (getf (getf *compiling-template* :options) :dot-syntax))
+                                `((access:with-dot ()
+                                    ,@body))
+                                body)))
+                  `(defmethod render-section ((section (eql ',section-name))
+                                              (template ,(getf *compiling-template* :name))
+                                              %ten-stream)
+                     (declare (ignore section))
+                     (with-slots ,arg-names template
+                       ,@body))))))))
 
 (defun call-with-template-header-options (header func)
-  (let* ((expr (read-template-expressions (code header))))
+  (let ((expr (read-template-expressions (code header))))
     (if (eql (first expr) 'ten/template:template)
-        (destructuring-bind (_ template-name options args)
-            expr
-          (let ((*compiling-template* (list :name template-name
-                                            :options options
-                                            :args args))
-                (*template-package* (or (find-package (getf options :package)) *template-package*))
-                (*sections* nil))
-            (start-template-compilation template-name)
-            (let ((compiled-template (funcall func)))
-              (finish-template-compilation template-name (list compiled-template)))))
+        (let ((*template-package* (or (find-package (getf (third expr) :package)) *template-package*)))
+          (destructuring-bind (_ template-name options args)
+              (read-template-expressions (code header)) ;; read the header again, in correct package
+            (declare (ignore _))
+            (let* ((*compiling-template* (list
+                                          :name template-name
+                                          :options options
+                                          :args args))
+                   (*sections* nil))
+              (start-template-compilation template-name)
+              (let ((compiled-template (funcall func)))
+                (finish-template-compilation template-name (list compiled-template))))))
         (funcall func))))
