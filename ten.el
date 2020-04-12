@@ -2,10 +2,11 @@
   (interactive)
   (slime-eval `(ten:compile-template (cl::pathname ,(buffer-file-name)))))
 
-;; TODO: improve this function
 (defun ten-expand-template ()
   (interactive)
-  (let ((expanded (slime-eval `(ten:expand-template (cl::pathname ,(buffer-file-name))))))
+  (let ((expanded (slime-eval `(cl:with-output-to-string
+                          (s)
+                          (cl:pprint (ten:expand-template (cl::pathname ,(buffer-file-name))) s)))))
     (slime-with-popup-buffer ("*TEN expansion*"
                               :package :ten-templates :connection t
                               :mode 'lisp-mode)
@@ -13,4 +14,4 @@
       (slime-macroexpansion-minor-mode 1)
       (setq font-lock-keywords-case-fold-search t)
       (current-buffer)
-      (print expanded))))
+      (insert expanded))))
