@@ -105,7 +105,11 @@ For manually compiling templates, use `ten:compile-template` function.
 
 But more useful is to include them in the ASDF system definition of your project.
 
-Use `:ten-template` in the project's ASDF system definition:
+First, add `:ten` as ASDF system definition dependency:
+
+`:defsystem-depends-on (:ten)`
+
+Then, use `:ten-template` in to include the template files:
 
 ```lisp
 (:ten-template "filename")
