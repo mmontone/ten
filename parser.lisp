@@ -120,8 +120,8 @@
                       (t tok))
                     out)
                    (setf tok (next-token))
-                   (if (and (not tok) (not toplevel)) ;; Next tok is nil
-                       (error "Missing 'end' tag.")))
+                   (when (and (not tok) (not toplevel)) ;; Next tok is nil
+                     (error "Missing 'end' tag" )))
                  out)))
       (rec-parse t))))
 

@@ -1,0 +1,36 @@
+{% template control (:output-whitespace nil) (x &key items) %}
+<html>
+  <head>
+  </head>
+  <body>
+
+    {% case x %}
+    {% :one %} It is one {% end %}
+    {% :two %} It is two {% end %}
+    {% t %} It is neither one or two {% end%}
+    {%end%}
+    
+    {% cond %}
+    {% (stringp x) %} Argument is a string {% end %}
+    {% (integerp x) %} Argument is an integer {% end %}
+    {% t %} Argument is neither a string or an integer {% end %}
+    {% end %}
+
+    {% when (stringp x) %}
+    {% let ((result (string-upcase x))) %}
+    {{result}}
+    {%end%}
+    {%end%}
+    
+    {% if items %}
+    <ul>
+      {% dolist (item items) %}
+      <li>{{ item }}</li>
+      {% end %}
+    </ul>
+    {% else %}
+    There are no items
+    {% end %}    
+  </body>
+</html>
+{% end %}

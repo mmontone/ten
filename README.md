@@ -83,6 +83,9 @@ false branches. For example:
   No recent posts.
 {% end %}
 ```
+
+Also, quite [advanced control expressions](https://github.com/mmontone/ten/blob/master/examples/control.html) are possible.
+
 ## Template definition
 
 Templates are defined with the following syntax:
@@ -98,6 +101,7 @@ Template options are:
 - `:dot-syntax`: If T, templates are compiled with dot syntax enabled. Dot syntax is implemented via the Lisp library `access`. Default is T.
 - `:package`: The package in which to compile and export the template. By default, templates are compiled and exported in `TEN-TEMPLATES` package.
 - `:escape-html`: Whether to escape html in output tags. Default is T.
+- `:output-whitespace`. Default is T. When NIL, expressions that just spit whitespace are discarded.
 
 ## Template compilation
 

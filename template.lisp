@@ -2,6 +2,7 @@
 
 (defvar *escape-html* t)
 (defvar *dot-syntax* t)
+(defvar *output-whitespace* t)
 
 (defvar *template-output*)
 (defvar *rendering-template* nil)
@@ -46,12 +47,11 @@
                           appending (list (intern (symbol-name arg) :keyword) arg))))
       (values slots slots-init arg-names))))
   
-(defmacro template (name (&key (escape-html *escape-html*)
-                               (dot-syntax *dot-syntax*)
-                               extends
-                               package
-                               control-delimiters
-                               output-delimiters)
+(defmacro template (name (&key extends
+                            package
+                            (escape-html *escape-html*)
+                            (dot-syntax *dot-syntax*)
+                            (output-whitespace *output-whitespace*))
                             args &rest body)
   
   (multiple-value-bind (slots slots-init arg-names)

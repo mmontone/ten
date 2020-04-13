@@ -6,6 +6,7 @@
 
 (defvar *compiling-template*) ;; The template being compiled
 (defvar *sections*) ;; Sections of current template
+(defvar *output-whitespace*)
 
 (defgeneric render-section (section-name template stream))
 
@@ -40,7 +41,9 @@
 ;;; Compiler
 
 (defmethod emit ((str string))
-  `(write-string ,str %ten-stream))
+  (when (not (and (not *output-whitespace*)
+                  (every 'ten/parser::whitespacep str)))
+    `(write-string ,str %ten-stream)))
 
 (defmethod emit ((vec vector))
   `(progn ,@(loop for elem across vec collecting (emit elem))))
@@ -72,7 +75,9 @@
                for elem in (if else-tag-pos
                                (split-sequence-if 'else-tag-p body)
                                (coerce body 'list))
-               collecting (emit elem)))))
+               for output := (emit elem)
+               when output
+               collect output))))
     (let ((exprs (read-template-expressions (code tag))))
       (if (eql (first exprs) 'ten/template::section)
           ;; sections are a special case
@@ -90,9 +95,6 @@
 (defun control-element-p (element)
   (typep element '<control-tag>))
 
-(defun emit-toplevel (code)
-  (emit code))
-
 (defun compile-template (elements &optional (package-name 'ten/template))
   (loop
     for element across elements
@@ -101,7 +103,7 @@
       (let ((*template-package* (find-package package-name)))
         (call-with-template-header-options
          element
-         (lambda () (emit-toplevel element))))))
+         (lambda () (emit element))))))
 
 (defun start-template-compilation (template-name)
   (declare (ignore template-name)))
@@ -117,7 +119,8 @@
               (multiple-value-bind (slots slots-init arg-names)
                   (ten/template::lambda-list-slots (getf *compiling-template* :args))
                 (declare (ignore slots slots-init))
-                (let ((body (if (or (not (member :dot-syntax (getf *compiling-template* :options)))
+                (let ((body (if (if (not (member :dot-syntax (getf *compiling-template* :options)))
+                                    ten/template::*dot-syntax*
                                     (getf (getf *compiling-template* :options) :dot-syntax))
                                 `((access:with-dot ()
                                     ,@body))
@@ -140,7 +143,10 @@
                                           :name template-name
                                           :options options
                                           :args args))
-                   (*sections* nil))
+                   (*sections* nil)
+                   (*output-whitespace* (if (member :output-whitespace options)
+                                            (getf options :output-whitespace)
+                                            ten/template::*output-whitespace*)))
               (start-template-compilation template-name)
               (let ((compiled-template (funcall func)))
                 (finish-template-compilation template-name (list compiled-template))))))
