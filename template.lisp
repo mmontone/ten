@@ -5,7 +5,6 @@
 (defvar *output-whitespace* t)
 
 (defvar *template-output*)
-(defvar *rendering-template* nil)
 (defvar *compiling-template*)
 
 (defclass template ()
@@ -64,15 +63,14 @@
          (defclass ,name (,(or extends 'template))
            ,slots)
          ,@(when (not extends)
-            `((defmethod render-template ((template ,name) %ten-stream)
-               (with-slots ,arg-names template
+            `((defmethod render-template ((%ten-template ,name) %ten-stream)
+               (with-slots ,arg-names %ten-template
                   ,@body))))
          (defun ,name ,args
-           (let ((*rendering-template* (make-instance ',name ,@slots-init)))
+           (let ((%ten-template (make-instance ',name ,@slots-init)))
              (values
               (with-output-to-string (%ten-stream)
-                (render-template *rendering-template*
-                                 %ten-stream))
+                (render-template %ten-template %ten-stream))
               t)))
          (compile ',name)
          (export ',name (symbol-package ',name))))))

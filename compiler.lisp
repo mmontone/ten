@@ -87,7 +87,7 @@
             (push (list (second exprs)
                         (emit-body (body tag)))
                   *sections*)
-            `(ten/compiler::render-section ',(second exprs) ten/template::*rendering-template* %ten-stream))
+            `(ten/compiler::render-section ',(second exprs) ten/template::%ten-template %ten-stream))
           ;; else
           `(,@exprs ,@(emit-body (body tag)))))))
 
@@ -126,10 +126,10 @@
                                     ,@body))
                                 body)))
                   `(defmethod render-section ((section (eql ',section-name))
-                                              (template ,(getf *compiling-template* :name))
+                                              (ten/template::%ten-template ,(getf *compiling-template* :name))
                                               %ten-stream)
                      (declare (ignore section))
-                     (with-slots ,arg-names template
+                     (with-slots ,arg-names ten/template::%ten-template
                        ,@body))))))))
 
 (defun call-with-template-header-options (header func)
