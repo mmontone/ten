@@ -84,7 +84,7 @@ false branches. For example:
 {% end %}
 ```
 
-Also, quite [advanced control expressions](https://github.com/mmontone/ten/blob/master/examples/control.html) are possible.
+Also, more [advanced control expressions](https://github.com/mmontone/ten/blob/master/examples/control.html) are possible, like `let`, `case`, `cond`, etc.
 
 ## Template definition
 
