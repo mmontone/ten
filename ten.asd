@@ -1,4 +1,4 @@
-(asdf:defsystem ten
+(asdf:defsystem "ten"
   :description "Template System for Common Lisp"
   :author "Mariano Montone <marianomontone@gmail.com>"
   :license  "MIT"
