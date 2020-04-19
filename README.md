@@ -193,6 +193,17 @@ Load and have a look at the [examples](https://github.com/mmontone/ten/tree/mast
 (require :ten.examples)
 ```
 
+## Troubleshooting
+
+When specifying a template package other than `ten-templates`, if the package specified doesn't `:use` `ten` or `ten-template` packages, then you may run into problems trying to compile your templates. That may be because the `template` and `section` macros are not found in the specified package. In that case, make sure to prefix your `template` and `section` declarations with `ten:`, like:
+
+```django
+{% ten:template my-template (:package my-package) %}
+{% ten:section my-section}
+{% end %}
+{% end %}
+```
+
 ## License
 
 MIT
