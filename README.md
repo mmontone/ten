@@ -204,7 +204,7 @@ Load and have a look at the [examples](https://github.com/mmontone/ten/tree/mast
 {% end %}
 ```
 
-2) Some "complex" expressions, like `cond` and `case`, require that you turn `:output-whitespace` to `NIL`. Otherwise, template compilation writes `write-string` expressions right in the middle of the `case` and `cond` bodies. Have look at [this template](https://github.com/mmontone/ten/blob/master/examples/control.html). 
+2) Some "complex" expressions, like `cond` and `case`, require that you turn `:output-whitespace` to `NIL`. Otherwise, template compilation puts `write-string` expressions right in the middle of the `case` and `cond` bodies. Have a look at [this template](https://github.com/mmontone/ten/blob/master/examples/control.html). 
 
 ## License
 
