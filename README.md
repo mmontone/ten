@@ -130,6 +130,8 @@ Then use `M-X ten-compile-template` when on the template buffer to compile templ
 
 For debugging, you can inspect the expanded template using `ten:expand-template` function. In Emacs, go to template buffer an do `M-x ten-expand-template`.
 
+If you enable `ten` minor mode, template compilation gets conveniently bound to `C-c C-c`, and template expansion to `C-c RET`. Best is to automatically enable the minor mode for template files adding something like `(add-hook 'web-mode-hook 'ten-mode)` to your `.emacs` initialization file.
+
 ## Inheritance
 
 To make a template inherit from anohter, use the `:extends` option in template definition.
