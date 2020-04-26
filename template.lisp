@@ -25,7 +25,7 @@
                                     (list r :initarg (intern (symbol-name r) :keyword))) required)
                           (mapcar (lambda (o)
                                     (list (first o)
-                                          :initarg (intern (symbol-name o) :keyword)
+                                          :initarg (intern (symbol-name (first o)) :keyword)
                                           :initform (second o)))
                                   optional)
                           (when rest
