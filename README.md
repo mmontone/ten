@@ -119,7 +119,7 @@ Then, use `:ten-template` in to include the template files:
 (:ten-template "filename")
 ```
 
-The default file extension is "ten", but another can be specified via the `:filename-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
+The default file extension is "ten", but another can be specified via the `:file-extension` option; and the template package can be specified with the `:package` option. Look at [ten.examples ASDF system](https://github.com/mmontone/ten/blob/master/ten.examples.asd) for an example.
 
 Templates are compiled into functions and exported in the indicated package. The default package is `ten-templates`, but that can be changed from either the ASDF system definition, the `ten:compile-template` parameters, or the `{% template %}` options.
 
