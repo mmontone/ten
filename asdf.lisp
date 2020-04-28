@@ -8,7 +8,7 @@
 (defclass ten-template (source-file)
   ((type :initform "ten"
          :initarg :file-extension)
-   (package :initform :ten-template
+   (package :initform :ten-templates
             :initarg :package
             :reader template-package)))
 
