@@ -89,6 +89,10 @@
             string))
      ,@body))
 
+(defmacro comment (&body body)
+  (declare (ignore body))
+  "")
+
 (defun raw (str)
   (values str t))
 

@@ -21,6 +21,7 @@
            :begin-verb
            :super
            :section
+           :comment
            :_
            :%ten-stream))
 
@@ -41,6 +42,7 @@
                 :raw
                 :verb
                 :verbatim
+                :comment
                 :super
                 :section
                 :begin-raw
@@ -54,6 +56,7 @@
            :raw
            :verb
            :verbatim
+           :comment
            :super
            :section
            :begin-raw
