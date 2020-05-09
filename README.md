@@ -125,9 +125,8 @@ You can also compile all the templates in some directory using this ASDF recipe:
 
 ```lisp
 :perform (asdf:compile-op :after (o c)
-                       (let ((compile-template (symbol-function (intern "COMPILE-TEMPLATE" :TEN))))
-                         (dolist (template (uiop:directory-files (asdf:system-relative-pathname :my-app "templates/*.ten")))
-                           (funcall compile-template template))))
+               (dolist (template (uiop:directory-files (asdf:system-relative-pathname :my-app "templates/*.ten")))
+               (uiop:symbol-call :ten 'compile-template template)))
 ```
 
 Templates are compiled into functions and exported in the indicated package. The default package is `ten-templates`, but that can be changed from either the ASDF system definition, the `ten:compile-template` parameters, or the `{% template %}` options.
