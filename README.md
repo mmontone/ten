@@ -6,10 +6,6 @@
 
 Yet another template system for Common Lisp.
 
-WIP
-
-NOTE: This is alpha quality. Not all design decisions have been made yet and things are subject to change.
-
 TEN is a fork of [ECO template system](https://github.com/eudoxia0/eco) by Fernando Borretti.
 
 Like ECO, TEN compiles templates to Lisp code, but has some differences:
