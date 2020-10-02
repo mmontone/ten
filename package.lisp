@@ -23,7 +23,12 @@
            :section
            :comment
            :_
-           :%ten-stream))
+           :%ten-stream
+           :*template-output*
+           :*escape-html*
+           :*dot-syntax*
+           :*create-string-writing-functions*
+           :*create-stream-writing-functions*))
 
 (defpackage ten/compiler
   (:use :cl :ten/parser :ten/template)
