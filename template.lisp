@@ -3,6 +3,7 @@
 (defvar *escape-html* t)
 (defvar *dot-syntax* t)
 (defvar *output-whitespace* t)
+(defvar *export-template* t "Export the templates by default")
 
 (defvar *template-output* "The stream stream writing template functions write to")
 (defvar *compiling-template*)
@@ -58,6 +59,7 @@
 (defmacro template (name (&key extends
                             package
                             (escape-html *escape-html*)
+                            (export *export-template*)
                             (dot-syntax *dot-syntax*)
                             (output-whitespace *output-whitespace*)
                             (create-string-writing-function *create-string-writing-functions*)
@@ -69,6 +71,8 @@
 Arguments:
 
 - EXTENDS: the name of the template to extend from.
+- PACKAGE: the package within which the compiled template is to be defined.
+- EXPORT: when T, the generated template function is exported.
 - ESCAPE-HTML: whether to escape HTML or not. Default is controlled by *ESCAPE-HTML*, which is true by default.
 - OUTPUT-WHITESPACE: whether to output whitespaces or not. Default is controlled by *OUTPUT-WHITESPACE*, which is true by default.
 - CREATE-STRING-WRITING-FUNCTION: controls whether a function that writes the template to a string should be created. Default is T.
@@ -103,7 +107,8 @@ IMPORTANT: some of this macro arguments are processed by CALL-WITH-TEMPLATE-HEAD
                         (render-template %ten-template %ten-stream))
                       t)))
                  (compile ',fname)
-                 (export ',fname (symbol-package ',name)))))
+                 ,@(when export
+                     `((export ',fname (symbol-package ',name)))))))
 
          ,@(when create-stream-writing-function
              (let ((fname (stream-writing-function-name name)))
@@ -113,8 +118,8 @@ IMPORTANT: some of this macro arguments are processed by CALL-WITH-TEMPLATE-HEAD
                       (render-template %ten-template *template-output*))
                      t))
                  (compile ',fname)
-                 (export ',fname (symbol-package ',name)))))
-
+                 ,@(when export
+                     `((export ',fname (symbol-package ',name)))))))
          ))))
 
 (defmacro begin-raw (&body body)
