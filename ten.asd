@@ -3,6 +3,7 @@
   :author "Mariano Montone <marianomontone@gmail.com>"
   :license  "MIT"
   :version "0.0.1"
+  :homepage "https://github.com/mmontone/ten"
   :serial t
   :depends-on (:access :esrap :cl-who :split-sequence)
   :components ((:file "package")
@@ -15,5 +16,4 @@
   :long-description
   #.(uiop:read-file-string
      (uiop:subpathname *load-pathname* "README.md"))
-  :in-order-to ((asdf:test-op (asdf:test-op :ten.tests)))
-  )
+  :in-order-to ((asdf:test-op (asdf:test-op :ten.tests))))
