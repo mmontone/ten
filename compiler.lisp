@@ -129,6 +129,7 @@
                                               (ten/template::%ten-template ,(getf *compiling-template* :name))
                                               %ten-stream)
                      (declare (ignore section))
+		     (declare (ignorable %ten-stream))
                      (with-slots ,arg-names ten/template::%ten-template
                        ,@body))))))))
 
