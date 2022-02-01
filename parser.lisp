@@ -52,6 +52,14 @@
 (defparameter +start-control-delimiter+ "{%")
 (defparameter +end-control-delimiter+ "%}")
 
+(defparameter +start-comment-delimiter "{#")
+(defparameter +stop-comment-delimiter "#}")
+
+(defrule comment (and "{#" (+ (not "#}")) "#}")
+  (:lambda (list)
+    (declare (ignore list))
+    ""))
+
 (defrule control-string (+ (not "%}"))
   (:text t))
 
@@ -60,35 +68,36 @@
                           "%}";;+end-control-delimiter+
                           )
   (:destructure (open code close)
-                (declare (ignore open close))
-                (let ((text (trim-whitespace code)))
-                  (cond
-                    ((equal text "end")
-                     (make-instance '<end-tag>))
-                    ((equal text "else")
-                     (make-instance '<else-tag>))                    
-                    (t (make-instance '<control-tag> :code text))))))
+    (declare (ignore open close))
+    (let ((text (trim-whitespace code)))
+      (cond
+        ((equal text "end")
+         (make-instance '<end-tag>))
+        ((equal text "else")
+         (make-instance '<else-tag>))
+        (t (make-instance '<control-tag> :code text))))))
 
 (defrule output-string (+ (not "}}"))
   (:lambda (list) (text list)))
 
 (defrule output-tag (and "{{";;+start-output-delimiter+
-                          output-string
-                          "}}";;+end-output-delimiter+
-                          )
+                         output-string
+                         "}}";;+end-output-delimiter+
+                         )
   (:destructure (open code close)
-                (declare (ignore open close))
-                (let ((text (trim-whitespace code)))
-                  (if (find #\space text)
-                      (make-instance '<fcall-tag> :code text)
-                      (make-instance '<var-tag> :code text)))))
+    (declare (ignore open close))
+    (let ((text (trim-whitespace code)))
+      (if (find #\space text)
+          (make-instance '<fcall-tag> :code text)
+          (make-instance '<var-tag> :code text)))))
 
 (defrule raw-text (+ (not (or "{{" ;;+start-output-delimiter+)
-                           "{%") ;;+start-control-delimiter+)
+                              "{%" ;;+start-control-delimiter+)
+                              "{#") ;;+start-comment-delimiter+)
                           ))
   (:lambda (list) (text list)))
 
-(defrule expr (+ (or control-tag output-tag raw-text)))
+(defrule expr (+ (or comment control-tag output-tag raw-text)))
 
 (defun tokenize-template (string)
   (parse 'expr string))

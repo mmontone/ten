@@ -53,9 +53,10 @@ A TEN template looks like this:
 
 ```
 
-There are two types of tags:
+These are the types of tags:
 - *Output tags*: `{{ <var> }}`, becomes `<var>`, and `{{ <fn> &rest args }}`, that becomes `(fn arg1 arg2 .. argn)`.
 - *Control tags*: `{% <expr> %} body {% end %}`, becomes `(<expr> body)`.
+- *Comments tags*: Use `{#` and `#}` to comment out a piece of template.
   
 Control tags control which parts of the tamplate are rendered; their return value is ignored.
 

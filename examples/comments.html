@@ -1,0 +1,39 @@
+{% template commented-ex1 () (user enabled &key items) %}
+<html>
+  <head>
+  </head>
+  <body>
+
+    {# Output the user name #}
+    {{ user.name | string-capitalize }}
+
+    {# Is user enabled?
+ 
+    Check that user is enabled ...
+    
+    #}
+    
+    {% if enabled %}
+    Enabled
+    {% else %}
+    Disabled
+    {% end %}
+
+    {# Output the list of items #}
+    
+    {% when items %}
+    <ul>
+      {% loop for item in items do %}
+      <li>{{ item }}</li>
+      {% end %}
+    </ul>
+    {% end %}
+
+    {# Message when there are no items #}
+    
+    {% when (not items) %}
+    There are no items
+    {% end %}    
+  </body>
+</html>
+{% end %}
