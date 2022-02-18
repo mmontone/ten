@@ -2,7 +2,8 @@
 
 (defun ten-compile-template ()
   (interactive)
-  (slime-eval `(ten:compile-template (cl::pathname ,(buffer-file-name)))))
+  (slime-eval `(ten:compile-template (cl::pathname ,(buffer-file-name))))
+  (message "TEN template compiled."))
 
 (defun ten-expand-template ()
   (interactive)
