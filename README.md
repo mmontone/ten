@@ -201,6 +201,8 @@ Load and have a look at the [examples](https://github.com/mmontone/ten/tree/mast
 (require :ten.examples)
 ```
 
+Example templates get compiled and exported to `ten/examples` package.
+
 ## Troubleshooting
 
 1) When specifying a template package other than `ten-templates`, if the package specified doesn't `:use` `ten` or `ten-template` packages, then you may run into problems trying to compile your templates. That may be because the `template` and `section` macros are not found in the specified package. In that case, make sure to prefix your `template` and `section` declarations with `ten:`, like:
