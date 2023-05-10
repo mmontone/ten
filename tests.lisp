@@ -28,3 +28,20 @@
   (is (not (null (search "&lt;div&gt;&lt;/div&gt;" (ten/examples:escaping2 "<div></div>")))))
   (is (not (null (search "<div></div>" (ten/examples:escaping3 "<div></div>")))))
   (is (not (null (search "<div></div>" (ten/examples:escaping4 "<div></div>"))))))
+
+(def-test if-expression-test ()
+  ;; {% if %} without {% else %} should fail to compile
+  (signals error 
+    (ten:compile-template "{% template if-test-1 () (locale) %}
+<html {% if locale %}lang=\"{{ locale }}\"{% end %}>
+{% end %}"))
+  ;; {% if %} with an {% else %} compiles
+  (finishes
+    (ten:compile-template "{% template if-test-2 () (locale) %}
+<html {% if locale %}lang=\"{{ locale }}\"{% else %}{% end %}>
+{% end %}"))
+  ;; {% when %} does not need an else
+  (finishes
+    (ten:compile-template "{% template if-test-3 () (locale) %}
+<html {% when locale %}lang=\"{{ locale }}\"{% end %}>
+{% end %}")))

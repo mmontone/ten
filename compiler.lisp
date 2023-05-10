@@ -77,19 +77,24 @@
                                (coerce body 'list))
                for output := (emit elem)
                when output
-               collect output))))
+		 collect output))))
     (let ((exprs (read-template-expressions (code tag))))
-      (if (eql (first exprs) 'ten/template::section)
-          ;; sections are a special case
-          (progn
-            ;; push the section to the list of sections
-            ;; to generate render-section methods later
-            (push (list (second exprs)
-                        (emit-body (body tag)))
-                  *sections*)
-            `(ten/compiler::render-section ',(second exprs) ten/template::%ten-template %ten-stream))
-          ;; else
-          `(,@exprs ,@(emit-body (body tag)))))))
+      (case (first exprs)
+	(ten/template::section ;; sections are a special case
+         ;; push the section to the list of sections
+         ;; to generate render-section methods later
+         (push (list (second exprs)
+                     (emit-body (body tag)))
+               *sections*)
+         `(ten/compiler::render-section ',(second exprs) ten/template::%ten-template %ten-stream))
+	(cl:if ;; check there's an else tag in body and emit
+	 (when (not (find-if (lambda (x) (typep x 'ten/parser::<else-tag>))
+			     (body tag)))
+	   (error "Missing {% else %} in {% if %} expression: ~a"
+		  tag))
+	 `(,@exprs ,@(emit-body (body tag))))
+	(t ;; otherwise, just emit
+         `(,@exprs ,@(emit-body (body tag))))))))
 
 
 (defun control-element-p (element)
