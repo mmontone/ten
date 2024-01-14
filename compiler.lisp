@@ -77,25 +77,27 @@
                                (coerce body 'list))
                for output := (emit elem)
                when output
-		 collect output))))
+                 collect output))))
     (let ((exprs (read-template-expressions (code tag))))
       (case (first exprs)
-	(ten/template::section ;; sections are a special case
+        (ten/template:with-output-whitespace ;; control whitespace output
+            (let ((*output-whitespace* (cadr exprs)))
+              `(,@exprs ,@(emit-body (body tag)))))
+        (ten/template::section ;; sections are a special case
          ;; push the section to the list of sections
          ;; to generate render-section methods later
          (push (list (second exprs)
                      (emit-body (body tag)))
                *sections*)
          `(ten/compiler::render-section ',(second exprs) ten/template::%ten-template %ten-stream))
-	(cl:if ;; check there's an else tag in body and emit
-	 (when (not (find-if (lambda (x) (typep x 'ten/parser::<else-tag>))
-			     (body tag)))
-	   (error "Missing {% else %} in {% if %} expression: ~a"
-		  tag))
-	 `(,@exprs ,@(emit-body (body tag))))
-	(t ;; otherwise, just emit
+        (cl:if ;; check there's an else tag in body and emit
+         (when (not (find-if (lambda (x) (typep x 'ten/parser::<else-tag>))
+                             (body tag)))
+           (error "Missing {% else %} in {% if %} expression: ~a"
+                  tag))
+         `(,@exprs ,@(emit-body (body tag))))
+        (t ;; otherwise, just emit
          `(,@exprs ,@(emit-body (body tag))))))))
-
 
 (defun control-element-p (element)
   (typep element '<control-tag>))
@@ -134,7 +136,7 @@
                                               (ten/template::%ten-template ,(getf *compiling-template* :name))
                                               %ten-stream)
                      (declare (ignore section))
-		     (declare (ignorable %ten-stream))
+                     (declare (ignorable %ten-stream))
                      (with-slots ,arg-names ten/template::%ten-template
                        ,@body))))))))
 

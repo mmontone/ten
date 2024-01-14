@@ -31,7 +31,7 @@
 
 (def-test if-expression-test ()
   ;; {% if %} without {% else %} should fail to compile
-  (signals error 
+  (signals error
     (ten:compile-template "{% template if-test-1 () (locale) %}
 <html {% if locale %}lang=\"{{ locale }}\"{% end %}>
 {% end %}"))
@@ -45,3 +45,16 @@
     (ten:compile-template "{% template if-test-3 () (locale) %}
 <html {% when locale %}lang=\"{{ locale }}\"{% end %}>
 {% end %}")))
+
+(def-test with-output-whitespace-test ()
+  (is (string= (ten/examples:with-output-whitespace-test-1 '((:x . 1) (:y . 2)))
+               "X1Y2"))
+  (is (string= (ten/examples:with-output-whitespace-test-2 '((:x . 1) (:y . 2)))
+               "X    1
+Y    2
+")
+      (is (string= (ten/examples:with-output-whitespace-test-3 '((:x . 1) (:y . 2)))
+                   "X    1
+Y    2
+X1Y2"))
+      ))

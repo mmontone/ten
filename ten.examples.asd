@@ -21,4 +21,5 @@
              (:ten-template "filters" :file-extension "html" :package :ten/examples)
              (:ten-template "escaping" :file-extension "html" :package :ten/examples)
              (:ten-template "control" :file-extension "html" :package :ten/examples)
+             (:ten-template "with-output-whitespace" :file-extension "html" :package :ten/examples)
              ))))

@@ -22,6 +22,7 @@
            :super
            :section
            :comment
+           :with-output-whitespace
            :_
            :%ten-stream
            :*template-output*
@@ -49,6 +50,7 @@
                 :verbatim
                 :comment
                 :super
+                :with-output-whitespace
                 :section
                 :begin-raw
                 :begin-verb
@@ -64,6 +66,7 @@
            :comment
            :super
            :section
+           :with-output-whitespace
            :begin-raw
            :begin-verb
            :begin-verbatim

@@ -1,0 +1,22 @@
+{% template with-output-whitespace-test-1 (:output-whitespace nil) (data) %}
+{% loop for item in data do %}
+{{item.car}}    {{item.cdr}}
+{% end %}
+{% end %}
+
+{% template with-output-whitespace-test-2 (:output-whitespace nil) (data) %}
+{% loop for item in data do %}
+{% with-output-whitespace T %}{{item.car}}    {{item.cdr}}
+{% end %}
+{% end %}
+{% end %}
+
+{% template with-output-whitespace-test-3 (:output-whitespace nil) (data) %}
+{% loop for item in data do %}
+{% with-output-whitespace T %}{{item.car}}    {{item.cdr}}
+{% end %}
+{% end %}
+{% loop for item in data do %}
+{{item.car}}    {{item.cdr}}
+{% end %}
+{% end %}

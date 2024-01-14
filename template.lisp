@@ -153,3 +153,7 @@ IMPORTANT: some of this macro arguments are processed by CALL-WITH-TEMPLATE-HEAD
     (progn
       (call-next-method)
       ""))
+
+(defmacro with-output-whitespace (value &body body)
+  `(let ((*output-whitespace* ,value))
+     ,@body))
