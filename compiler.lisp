@@ -143,7 +143,11 @@
 (defun call-with-template-header-options (header func)
   (let ((expr (read-template-expressions (code header))))
     (if (eql (first expr) 'ten/template:template)
-        (let ((*template-package* (or (find-package (getf (third expr) :package)) *template-package*)))
+        (let ((*template-package* (let ((package-name (getf (third expr) :package)))
+                                    (if package-name
+                                        (or (find-package package-name)
+                                            (error "Package not found: ~s" package-name))
+                                        *template-package*))))
           (destructuring-bind (_ template-name options args)
               (read-template-expressions (code header)) ;; read the header again, in correct package
             (declare (ignore _))
