@@ -214,7 +214,17 @@ Example templates get compiled and exported to `ten/examples` package.
 {% end %}
 ```
 
-2) Some "complex" expressions, like `cond` and `case`, require that you turn `:output-whitespace` to `NIL`. Otherwise, template compilation puts `write-string` expressions right in the middle of the `case` and `cond` bodies. Have a look at [this template](https://github.com/mmontone/ten/blob/master/examples/control.html). 
+2) You can use different implementation and export packages. Qualify the template name with the package name, like:
+```django
+{% ten:template my-templates:my-template (:package my-package) %}
+{{ foo "bar" }}
+{% ten:section my-section %}
+{% end %}
+{% end %}
+```
+That will define `MY-TEMPLATE` on the `MY-TEMPLATES` package, but use `MY-PACKAGE` in its source (the `{{ foo "bar" }}` expression expands to to `(MY-PACKAGE::FOO "bar")`). Note that you need to previously define a package `MY-TEMPLATE` that exports `MY-TEMPLATE`. Or otherwise use `MY-TEMPLATE::MY-TEMPLATE` as template name.
+
+3) Some "complex" expressions, like `cond` and `case`, require that you turn `:output-whitespace` to `NIL`. Otherwise, template compilation puts `write-string` expressions right in the middle of the `case` and `cond` bodies. Have a look at [this template](https://github.com/mmontone/ten/blob/master/examples/control.html). 
 
 ## License
 
