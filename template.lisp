@@ -5,7 +5,8 @@
 (defvar *output-whitespace* t)
 (defvar *export-template* t "Export the templates by default")
 
-(defvar *template-output* "The stream stream writing template functions write to")
+(defvar *template-output* nil
+  "The stream stream writing template functions write to")
 (defvar *compiling-template*)
 (defvar *create-string-writing-functions* t)
 (defvar *create-stream-writing-functions* nil)
