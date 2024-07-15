@@ -129,6 +129,8 @@ You can also compile all the templates in some directory using this ASDF recipe:
 
 Templates are compiled into functions and exported in the indicated package. The default package is `ten-templates`, but that can be changed from either the ASDF system definition, the `ten:compile-template` parameters, or the `{% template %}` options.
 
+Two functions are compiled, the default one, that compiles to a function that takes template arguments and renders the template to a string. And a function that renders the template to the `*TEMPLATE-OUTPUT*` stream. So, for a template named `my-template`, a `my-template` function that renders to a string is created, and a `my-template*` function that renders to `*TEMPLATE-OUTPUT*` stream is created.
+
 When developing your project it is useful to be able to compile templates in an interactive way. 
 If you are using Emacs + SLIME, load `ten.el` file.
 
